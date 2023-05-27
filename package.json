@@ -1,8 +1,8 @@
 {
-  "name": "package-name",
+  "name": "beyond2021",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "A package to retrieve data from internet",
+  "main": "build/index.js",
   "scripts": {
     "build": "tsc",
     "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gaëtan H (Steellgold)",
   "license": "ISC",
   "devDependencies": {
     "@bluzzi/eslint-config": "^0.8.8",
@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "bettercolors": "^1.1.1",
-    "dayjs": "^1.11.7"
+    "dayjs": "^1.11.7",
+    "html-to-text": "^9.0.5",
+    "openai": "^3.2.1"
   }
 }
