@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+
+    "outDir": "./build/",
+
+    "strict": true,
+    
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "$core/*": ["./src/*"],
+    }
+  },
+  "exclude": [
+    "node_modules/*",
+    "build/*",
+    "types/*"
+  ],
+  
+}
