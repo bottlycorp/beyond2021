@@ -49,10 +49,18 @@ export class DataBeyond {
     });
 
     if (!res.data) return { content: "No response from OpenAI" };
-
     const response = res.data.choices[0].message?.content;
     if (!response) return { content: "No response from OpenAI" };
-    return { content: response, url: urlReference };
+
+    const moderation = await this.openai.createModeration({
+      input: urlReference + "\n" + response,
+      model: "text-moderation-latest"
+    });
+
+    if (!moderation.data) return { content: "No response from OpenAI" };
+    const flagged = moderation.data.results[0].flagged;
+    if (flagged) return { content: "This response was flagged as inappropriate" };
+    else return { content: response, url: urlReference };
   };
 
   private getTextOfSearchResults = async(results: SearchResults): Promise<[string, string]> => {
