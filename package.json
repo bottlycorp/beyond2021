@@ -31,6 +31,9 @@
       "no-useless-escape": "off"
     }
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },  
   "dependencies": {
     "bettercolors": "^1.1.1",
     "dayjs": "^1.11.7",
