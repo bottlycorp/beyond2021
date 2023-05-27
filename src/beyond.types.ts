@@ -19,3 +19,20 @@ export type Configuration = {
    */
   GOOGLE_SEARCH_ENGINE_ID: string;
 }
+
+export type SearchResults = {
+  items: {
+    snippet: string;
+    link: string;
+  }[];
+}
+
+export type SearchResult = {
+  snippet: string;
+  link: string;
+}
+
+export type SearchResponse = {
+  content: string;
+  url?: string | null;
+}
