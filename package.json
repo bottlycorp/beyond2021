@@ -1,8 +1,9 @@
 {
-  "name": "beyond2021",
+  "name": "@bottlycorp/beyond2021",
   "version": "0.0.1",
   "description": "A package to retrieve data from internet",
   "main": "build/index.js",
+  "repository":"https://github.com/bottlycorp/beyond2021",
   "scripts": {
     "build": "tsc",
     "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types",
