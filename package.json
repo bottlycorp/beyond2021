@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
+  "private": false,
+  "keywords": ["gpt", "google", "gpt-3.5-turbo", "search", "web", "data"],
   "author": "Gaëtan H (Steellgold)",
   "license": "ISC",
   "devDependencies": {
@@ -32,12 +33,7 @@
       "no-useless-escape": "off"
     }
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },  
   "dependencies": {
-    "bettercolors": "^1.1.1",
-    "dayjs": "^1.11.7",
     "gpt-3-encoder": "^1.1.4",
     "html-to-text": "^9.0.5",
     "openai": "^3.2.1"
