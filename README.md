@@ -4,7 +4,9 @@ Beyond2021 is a package to get data from the web. It uses Google Search API and 
 
 ### Installation:
 
-Use PNPM or PNPM and install the pacakges `pnpm install` or `npm install`.
+Use PNPM or PNPM and install the pacakges `pnpm install` or `npm install`
+
+### Setup
 
 Set the required environment variables 
 ```ts
@@ -12,7 +14,7 @@ export const web = new DataBeyond({
   GOOGLE_SEARCH_API_KEY: "",
   GOOGLE_SEARCH_ENGINE_ID: "",
   OPENAI_API_KEY: "",
-  OPENAI_ORGANIZATION_ID: ""
+  OPENAI_ORGANIZATION_ID: "" // Optional
 });
 ```
 

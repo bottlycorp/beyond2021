@@ -1,9 +1,9 @@
 import { compile } from "html-to-text";
 import { encode } from "gpt-3-encoder";
 import { Configuration as OpenAIConfiguration, OpenAIApi } from "openai";
-import { Configuration, SearchResponse, SearchResult, SearchResults } from "./beyond.types";
+import { Configuration, SafeSearch, SearchResponse, SearchResult, SearchResults } from "./beyond.types";
 
-const GOOGLE_REQUEST = "https://www.googleapis.com/customsearch/v1\?key\={1}\&cx={2}\&q\={3}";
+const GOOGLE_REQUEST = "https://www.googleapis.com/customsearch/v1?key={1}&cx={2}&q={3}&safe={4}";
 
 const convert = compile({
   preserveNewlines: false,
@@ -31,11 +31,12 @@ export class DataBeyond {
     }));
   }
 
-  public search = async(prompt: string): Promise<SearchResponse> => {
+  public search = async(prompt: string, safeSearch: SafeSearch = "active"): Promise<SearchResponse> => {
     const googleResponse = await fetch(GOOGLE_REQUEST
       .replace("{1}", this.config.GOOGLE_SEARCH_API_KEY)
       .replace("{2}", this.config.GOOGLE_SEARCH_ENGINE_ID)
-      .replace("{3}", prompt));
+      .replace("{3}", prompt)
+      .replace("{4}", safeSearch));
 
     const [context, urlReference] = (await this.getTextOfSearchResults(await googleResponse.json()));
 
@@ -52,19 +53,25 @@ export class DataBeyond {
     const response = res.data.choices[0].message?.content;
     if (!response) return { content: "No response from OpenAI" };
 
-    const moderation = await this.openai.createModeration({
-      input: urlReference + "\n" + response,
-      model: "text-moderation-latest"
-    });
+    if (safeSearch !== "off") {
+      const moderation = await this.openai.createModeration({
+        input: urlReference + "\n" + response,
+        model: "text-moderation-latest"
+      });
 
-    if (!moderation.data) return { content: "No response from OpenAI" };
-    const flagged = moderation.data.results[0].flagged;
-    if (flagged) return { content: "This response was flagged as inappropriate" };
-    else return { content: response, url: urlReference };
+      if (!moderation.data) return { content: "No response from OpenAI" };
+      const flagged = moderation.data.results[0].flagged;
+      if (flagged) return { content: "This response was flagged as inappropriate" };
+    }
+
+    return { content: response, url: urlReference };
   };
 
   private getTextOfSearchResults = async(results: SearchResults): Promise<[string, string]> => {
     let urlReference = "";
+
+    if (!results.items || results.items.length === 0) return ["", urlReference];
+
     let context = results.items.reduce(
       (allPages: string, currentPage: SearchResult) => `${allPages} ${currentPage.snippet.replaceAll("...", " ")}`, ""
     );

@@ -36,3 +36,8 @@ export type SearchResponse = {
   content: string;
   url?: string | null;
 }
+
+/**
+ * @see https://docs.openai.com/api-reference/engines/create
+ */
+export type SafeSearch = "safeUndefined" | "active" | "high" | "medium" | "off";
