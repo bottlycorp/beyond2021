@@ -10,7 +10,8 @@
     "release": "git push --follow-tags && npm publish",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev": "npx nodemon --exec node -r @swc-node/register -r tsconfig-paths/register ./test.ts dev"
   },
   "private": false,
   "keywords": ["gpt", "google", "gpt-3.5-turbo", "search", "web", "data"],
