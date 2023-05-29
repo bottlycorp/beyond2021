@@ -1,7 +1,7 @@
 import { Configuration as OpenAIConfiguration, OpenAIApi } from "openai";
-import { Configuration, SearchResponse, SearchResult } from "./beyond.types";
+import { Configuration, SafeSearch, SearchResponse, SearchResult } from "./beyond.types";
 
-const GOOGLE_REQUEST = "https://www.googleapis.com/customsearch/v1?key={apiKey}&cx={searchEngineId}&q={query}&num={num}";
+const GOOGLE_REQUEST = "https://www.googleapis.com/customsearch/v1?key={apiKey}&cx={searchEngineId}&q={query}&num={num}&safe={safeSearch}";
 
 export class DataBeyond {
 
@@ -22,12 +22,13 @@ export class DataBeyond {
     }));
   }
 
-  private async find(query: string, limit = 1): Promise<Response> {
+  private async find(query: string, limit = 1, safeSearch: SafeSearch = "off"): Promise<Response> {
     const data = await fetch(GOOGLE_REQUEST
       .replace("{apiKey}", this.config.GOOGLE_SEARCH_API_KEY)
       .replace("{searchEngineId}", this.config.GOOGLE_SEARCH_ENGINE_ID)
       .replace("{query}", encodeURIComponent(query))
-      .replace("{num}", limit.toString()));
+      .replace("{num}", limit.toString())
+      .replace("{safeSearch}", safeSearch));
 
     if (data.status !== 429) return data;
 
@@ -60,10 +61,10 @@ export class DataBeyond {
     return data;
   }
 
-  public async search(query: string, limit = 1): Promise<SearchResponse> {
+  public async search(query: string, limit = 1, safeSearch: SafeSearch = "off"): Promise<SearchResponse> {
     let context = "";
     try {
-      const response = await this.find(query, limit);
+      const response = await this.find(query, limit, safeSearch);
       if (response.status !== 200) return { content: "This request failed, please try again later.", url: null };
 
       const data = await response.json();
@@ -85,6 +86,33 @@ export class DataBeyond {
 
       const responseText = result.data.choices[0].message?.content;
       if (!responseText) return { content: "No response from OpenAI", url: null };
+
+      if (safeSearch !== "off") {
+        const moderation = await this.openai.createModeration({
+          input: responseText + "\n" + items[0].link + "\n" + items.map(item => item.link).join("\n"),
+          model: "text-moderation-latest"
+        });
+
+        if (!moderation || !moderation.data || !moderation.data.results || !moderation.data.results[0]) {
+          return {
+            content: "An error occurred while moderating the response from OpenAI, by safety reasons it cannot be shown.",
+            url: null
+          };
+        }
+
+        if (moderation.data.results[0].flagged) {
+          return {
+            content: "The response from OpenAI was flagged as unsafe, by safety reasons it cannot be shown.",
+            url: null
+          };
+        } else {
+          return {
+            content: responseText,
+            url: items[0].link,
+            urls: items.map(item => item.link)
+          };
+        }
+      }
 
       return {
         content: responseText,

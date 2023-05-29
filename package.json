@@ -1,6 +1,6 @@
 {
   "name": "@bottlycorp/beyond2021",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A package to retrieve data from internet",
   "main": "build/index.js",
   "repository":"https://github.com/bottlycorp/beyond2021",

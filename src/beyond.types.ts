@@ -45,4 +45,4 @@ export type SearchResult = {
 /**
  * @see https://docs.openai.com/api-reference/engines/create
  */
-export type SafeSearch = "safeUndefined" | "active" | "high" | "medium" | "off";
+export type SafeSearch = "safeUndefined" | "active" | "off";

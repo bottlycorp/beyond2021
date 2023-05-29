@@ -27,3 +27,7 @@ const dataWebSearch = await websearch.search("What is the best way to learn prog
 const url = dataWebSearch.url ?? "No url found";
 const content = dataWebSearch.content;
 ```
+
+### How it works ?
+
+![How it works](./HowItWorks.png)
