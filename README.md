@@ -16,6 +16,11 @@ export const web = new DataBeyond({
   OPENAI_API_KEY: "",
   OPENAI_ORGANIZATION_ID: "", // Optional
   MULTIPLE_SEARCH_API_KEYS: [], // Optional (Key table for using a new key if it is rate-limited)
+  LOGGER: { // Optional (default for all is false)
+    LOG_ERRORS: false,
+    LOG_REQUESTS: true,
+    LOG_RESPONSES: false
+  }
 });
 ```
 

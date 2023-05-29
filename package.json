@@ -1,9 +1,9 @@
 {
   "name": "@bottlycorp/beyond2021",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A package to retrieve data from internet",
   "main": "build/index.js",
-  "repository":"https://github.com/bottlycorp/beyond2021",
+  "repository": "https://github.com/bottlycorp/beyond2021",
   "scripts": {
     "build": "tsc",
     "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types",
@@ -14,7 +14,14 @@
     "dev": "npx nodemon --exec node -r @swc-node/register -r tsconfig-paths/register ./test.ts dev"
   },
   "private": false,
-  "keywords": ["gpt", "google", "gpt-3.5-turbo", "search", "web", "data"],
+  "keywords": [
+    "gpt",
+    "google",
+    "gpt-3.5-turbo",
+    "search",
+    "web",
+    "data"
+  ],
   "author": "Gaëtan H (Steellgold)",
   "license": "ISC",
   "devDependencies": {
@@ -25,9 +32,9 @@
     "@types/node": "^18.15.11",
     "dotenv": "^16.0.3",
     "eslint": "^8.38.0",
-    "typescript": "^5.0.4",
     "nodemon": "^2.0.22",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
   },
   "eslintConfig": {
     "extends": "@bluzzi",
@@ -36,6 +43,7 @@
     }
   },
   "dependencies": {
+    "bettercolors": "^1.1.1",
     "openai": "^3.2.1"
   }
 }

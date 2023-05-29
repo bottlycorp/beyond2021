@@ -28,6 +28,26 @@ export type Configuration = {
    * @see https://programmablesearchengine.google.com/controlpanel/all
    */
   GOOGLE_SEARCH_ENGINE_ID: string;
+  /**
+   * Loggers
+  */
+  LOGGER?: {
+    /**
+     * Log requests to console (default: false)
+     * @default false
+      */
+    LOG_REQUESTS?: boolean;
+    /**
+     * Log responses to console (default: false)
+     * @default false
+      */
+    LOG_RESPONSES?: boolean;
+    /**
+     * Log errors to console (default: true)
+      * @default false
+    */
+    LOG_ERRORS?: boolean;
+  };
 }
 
 export type SearchResponse = {
